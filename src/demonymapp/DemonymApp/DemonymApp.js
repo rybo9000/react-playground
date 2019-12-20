@@ -15,7 +15,7 @@ class DemonymApp extends React.Component {
 
     setSelected(selected) {
         this.setState({
-            selected
+            selected: selected
         })
     }
     
@@ -25,10 +25,17 @@ class DemonymApp extends React.Component {
             .then(data => {
                 const countries = Object.keys(data)
                 .map(key => data[key].item[0]);
+                
                 this.setState({
-                    countries
+                    countries: countries,
+                    error: null
                 })
-            });
+            })
+            .catch(err => {
+                this.setState({
+                    error: err.message
+                  });
+            })
       }
     
     render() {
@@ -36,10 +43,15 @@ class DemonymApp extends React.Component {
         const demon = this.state.selected
         ? <Demonym name={this.state.selected['citizen-names']} country={this.state.selected.name}/>
         : <div className="demonym_app__placeholder">Select a country above</div>;
+
+        const error = this.state.error
+        ? <div className="demonym_app__error">{this.state.error}</div>
+        : "";
         
         return (
             <div className="demonym_app">
-                <CountrySelector countries={[{name:"Barbados"}, {name:"Bahrain"}]} changeHandler={selected => this.setSelected(selected)}/>
+                {error}
+                <CountrySelector countries={this.state.countries} changeHandler={selected => this.setSelected(selected)}/>
                 {demon}
             </div>
         )
