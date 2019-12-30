@@ -1,12 +1,16 @@
 import React from 'react';
 import './App.css';
-import DemonymApp from './demonymapp/DemonymApp/DemonymApp';
+import TheDate from './state/TheDate';
+
 
 function App() {
   return (
     <main className='App'>
-      <DemonymApp />
+      <TheDate />
     </main>
+    
+
+
   );
 }
 
